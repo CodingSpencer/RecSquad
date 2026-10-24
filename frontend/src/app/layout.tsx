@@ -18,6 +18,8 @@ export const metadata: Metadata = {
   description: "Connect with local sports groups and events.",
 };
 
+export const instant = false
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html

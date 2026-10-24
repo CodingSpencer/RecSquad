@@ -1,3 +1,5 @@
+import SignInButton from '@/components/SignInButton'
+
 export default function Home() {
   return (
     <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
@@ -14,16 +16,11 @@ export default function Home() {
         <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
           <a
             href="/events"
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-indigo-600 px-5 text-white transition-colors hover:bg-indigo-700 dark:hover:bg-indigo-600 md:w-[158px]"
+            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-emerald-600 px-5 text-white transition-colors hover:bg-emerald-700 dark:hover:bg-emerald-600 md:w-[158px]"
           >
             Browse Events
           </a>
-          <a
-            href="/login"
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 text-zinc-600 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-          >
-            Sign In
-          </a>
+          <SignInButton />
         </div>
 
         <section className="mt-20 flex flex-col items-center justify-between gap-12 py-16 px-16 border-t border-zinc-200 dark:border-zinc-800 sm:flex-row">
