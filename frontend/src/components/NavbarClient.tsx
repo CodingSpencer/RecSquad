@@ -33,6 +33,7 @@ export default function NavbarClient({ initialLoggedIn, initialUsername, initial
       <div className="flex items-center gap-6">
         <Link href="/" className="text-sm font-medium hover:text-emerald-600">Home</Link>
         <Link href="/events" className="text-sm font-medium hover:text-emerald-600">Events</Link>
+        <Link href="/groups" className="text-sm font-medium hover:text-emerald-600">Groups</Link>
       </div>
       {loggedIn ? (
         <div className="relative" ref={dropdownRef}>
