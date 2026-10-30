@@ -1,76 +1,221 @@
 <script lang="ts">
   import { enhance } from '$app/forms'
-  import type { PageData } from './$types'
+  import type { ActionData } from './$types'
 
-  export let data: PageData
+  export let form: ActionData
   let mode = 'login' // 'login' | 'signup'
 </script>
 
-<main class="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-black px-4">
-  <div class="w-full max-w-md">
-    <div class="bg-white dark:bg-zinc-900 p-8 rounded-xl shadow-md">
-      <h1 class="text-2xl font-bold mb-6 text-center">{mode === 'signup' ? 'Create Account' : 'Sign In'}</h1>
+<main class="login-page">
+  <div class="login-container">
+    <div class="login-card">
+      <h1 class="login-title">{mode === 'signup' ? 'Create Account' : 'Sign In'}</h1>
 
-      {#if data.error}
-        <p class="mb-4 text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 p-3 rounded border border-red-200 dark:border-red-800">{data.error}</p>
+      {#if form?.error}
+        <p class="error-message">{form.error}</p>
       {/if}
 
-      <form method="POST" action="?/{mode}" use:enhance>
-        <div class="mb-4">
-          <label for="login-email" class="block text-sm font-medium mb-1 text-zinc-700 dark:text-zinc-300">Email</label>
+      <form method="POST" action="?/{mode}" use:enhance class="login-form">
+        <div class="field-group">
+          <label for="login-email" class="field-label">Email</label>
           <input
             id="login-email"
             name="email"
             type="email"
             required
-            class="w-full border rounded p-2 text-zinc-900 dark:text-zinc-100 bg-white dark:bg-zinc-800"
+            class="text-field"
           />
         </div>
-        <div class="mb-4">
-          <label for="login-password" class="block text-sm font-medium mb-1 text-zinc-700 dark:text-zinc-300">Password</label>
+        <div class="field-group">
+          <label for="login-password" class="field-label">Password</label>
           <input
             id="login-password"
             name="password"
             type="password"
             required
-            class="w-full border rounded p-2 text-zinc-900 dark:text-zinc-100 bg-white dark:bg-zinc-800"
+            class="text-field"
           />
         </div>
         {#if mode === 'signup'}
-          <div class="mb-4">
-            <label for="signup-username" class="block text-sm font-medium mb-1 text-zinc-700 dark:text-zinc-300">Username</label>
-            <input id="signup-username" name="username" required class="w-full border rounded p-2 text-zinc-900 dark:text-zinc-100 bg-white dark:bg-zinc-800" />
+          <div class="field-group">
+            <label for="signup-username" class="field-label">Username</label>
+            <input id="signup-username" name="username" required class="text-field" />
           </div>
-          <div class="mb-6">
-            <label for="signup-full-name" class="block text-sm font-medium mb-1 text-zinc-700 dark:text-zinc-300">Full name</label>
-            <input id="signup-full-name" name="full_name" class="w-full border rounded p-2 text-zinc-900 dark:text-zinc-100 bg-white dark:bg-zinc-800" />
+          <div class="field-group last-field">
+            <label for="signup-full-name" class="field-label">Full name</label>
+            <input id="signup-full-name" name="full_name" class="text-field" />
           </div>
         {/if}
 
         <button
           type="submit"
           name="action"
-          class="w-full bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700 transition font-medium"
+          class="submit-button"
         >
           {mode === 'signup' ? 'Create Account' : 'Sign In'}
         </button>
       </form>
 
-      <p class="mt-6 text-center text-sm text-zinc-600 dark:text-zinc-400">
+      <p class="mode-prompt">
         {mode === 'login'
           ? "Don't have an account? "
           : 'Already have an account? '
         }
         <button
           onclick={() => (mode = mode === 'login' ? 'signup' : 'login')}
-          class="font-medium text-emerald-600 dark:text-emerald-400 hover:underline"
+          class="mode-toggle"
         >
           {mode === 'login' ? 'Sign up' : 'Sign in'}
         </button>
       </p>
-      <p class="mt-3 text-center text-sm text-zinc-500 dark:text-zinc-500">
-        <a href="/" class="text-emerald-600 dark:text-emerald-400 hover:underline">← Back to Home</a>
+      <p class="home-link-container">
+        <a href="/" class="home-link">← Back to Home</a>
       </p>
     </div>
   </div>
 </main>
+
+<style>
+  .login-page {
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    background: #f9fafb;
+    padding: 0 1rem;
+  }
+
+  .login-container {
+    width: 100%;
+    max-width: 28rem;
+  }
+
+  .login-card {
+    border-radius: 0.75rem;
+    background: #fff;
+    padding: 2rem;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  }
+
+  .login-title {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .error-message {
+    margin-bottom: 1rem;
+    border: 1px solid #fecaca;
+    border-radius: 0.25rem;
+    background: #fef2f2;
+    padding: 0.75rem;
+    font-size: 0.875rem;
+    color: #dc2626;
+  }
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .field-group {
+    margin-bottom: 1rem;
+  }
+
+  .field-group.last-field {
+    margin-bottom: 1.5rem;
+  }
+
+  .field-label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #3f3f46;
+  }
+
+  .text-field {
+    width: 100%;
+    border: 1px solid #d4d4d8;
+    border-radius: 0.25rem;
+    background: #fff;
+    padding: 0.5rem;
+    color: #18181b;
+  }
+
+  .submit-button {
+    width: 100%;
+    border-radius: 0.25rem;
+    background: #059669;
+    padding: 0.5rem 1rem;
+    color: #fff;
+    font-weight: 500;
+    transition: background-color 150ms;
+  }
+
+  .submit-button:hover {
+    background: #047857;
+  }
+
+  .mode-prompt {
+    margin-top: 1.5rem;
+    text-align: center;
+    font-size: 0.875rem;
+    color: #52525b;
+  }
+
+  .mode-toggle {
+    font-weight: 500;
+    color: #059669;
+  }
+
+  .mode-toggle:hover,
+  .home-link:hover {
+    text-decoration: underline;
+  }
+
+  .home-link-container {
+    margin-top: 0.75rem;
+    text-align: center;
+    font-size: 0.875rem;
+    color: #71717a;
+  }
+
+  .home-link {
+    color: #059669;
+  }
+
+  :global(.dark) .login-page {
+    background: #000;
+  }
+
+  :global(.dark) .login-card {
+    background: #18181b;
+  }
+
+  :global(.dark) .error-message {
+    border-color: #7f1d1d;
+    background: rgb(127 29 29 / 0.2);
+    color: #f87171;
+  }
+
+  :global(.dark) .field-label {
+    color: #d4d4d8;
+  }
+
+  :global(.dark) .text-field {
+    border-color: #3f3f46;
+    background: #27272a;
+    color: #f4f4f5;
+  }
+
+  :global(.dark) .mode-prompt {
+    color: #a1a1aa;
+  }
+
+  :global(.dark) .mode-toggle,
+  :global(.dark) .home-link {
+    color: #34d399;
+  }
+</style>

@@ -4,19 +4,59 @@
   export let data: PageData & { group: any; isAdmin: boolean; user: any }
 </script>
 
-<main class="max-w-3xl mx-auto p-6">
+<main class="group-page">
   {#if !data.group}
-    <p class="text-zinc-500">Loading group...</p>
+    <p class="loading-message">Loading group...</p>
   {:else}
-    <h1 class="text-2xl font-bold">{data.group.name}</h1>
-    <p class="text-zinc-500 dark:text-zinc-400">{data.group.sport} · {data.group.description}</p>
+    <h1 class="page-title">{data.group.name}</h1>
+    <p class="group-description">{data.group.sport} · {data.group.description}</p>
     {#if data.isAdmin}
       <a
         href={`/groups/${data.group.id}/events/new`}
-        class="inline-block mt-4 bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700 transition font-medium"
+        class="primary-link"
       >
         Create Event
       </a>
     {/if}
   {/if}
 </main>
+
+<style>
+  .group-page {
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: 1.5rem;
+  }
+
+  .loading-message {
+    color: #71717a;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .group-description {
+    color: #71717a;
+  }
+
+  .primary-link {
+    display: inline-block;
+    margin-top: 1rem;
+    border-radius: 0.25rem;
+    background: #059669;
+    padding: 0.5rem 1rem;
+    color: #fff;
+    font-weight: 500;
+    transition: background-color 150ms;
+  }
+
+  .primary-link:hover {
+    background: #047857;
+  }
+
+  :global(.dark) .group-description {
+    color: #a1a1aa;
+  }
+</style>

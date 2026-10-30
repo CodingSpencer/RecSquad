@@ -5,23 +5,123 @@
   export let data: PageData
 </script>
 
-<main class="max-w-md mx-auto p-6">
-  <h1 class="text-2xl font-bold mb-4">Create Event</h1>
+<main class="form-page">
+  <h1 class="page-title">Create Event</h1>
   {#if data.error}
-    <p class="mb-4 text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 p-3 rounded border border-red-200 dark:border-red-800">{data.error}</p>
+    <p class="error-message">{data.error}</p>
   {/if}
-  <form method="POST" use:enhance class="space-y-3">
+  <form method="POST" use:enhance class="form-fields">
     <div>
-      <label for="event-title" class="block text-sm font-medium mb-1 text-zinc-700 dark:text-zinc-300">Title</label>
-      <input id="event-title" name="title" placeholder="Title" required class="border w-full p-2 rounded text-zinc-900 dark:text-zinc-100 bg-white dark:bg-zinc-800" />
+      <label for="event-title" class="field-label">Title</label>
+      <input id="event-title" name="title" placeholder="Title" required class="text-field" />
     </div>
     <div>
-      <label for="event-date" class="block text-sm font-medium mb-1 text-zinc-700 dark:text-zinc-300">Date & time</label>
-      <input id="event-date" type="datetime-local" name="date" required class="border w-full p-2 rounded text-zinc-900 dark:text-zinc-100 bg-white dark:bg-zinc-800" />
+      <label for="event-date" class="field-label">Date & time</label>
+      <input id="event-date" type="datetime-local" name="date" required class="text-field" />
     </div>
-    <button class="bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700 transition font-medium">Create</button>
+    <button class="primary-button">Create</button>
   </form>
-  <p class="mt-4 text-center text-sm text-zinc-500 dark:text-zinc-400">
-    <a href=".." class="text-emerald-600 dark:text-emerald-400 hover:underline">← Back to Group</a>
+  <p class="back-link-container">
+    <a href=".." class="back-link">← Back to Group</a>
   </p>
 </main>
+
+<style>
+  .form-page {
+    max-width: 28rem;
+    margin: 0 auto;
+    padding: 1.5rem;
+  }
+
+  .page-title {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .error-message {
+    margin-bottom: 1rem;
+    border: 1px solid #fecaca;
+    border-radius: 0.25rem;
+    background: #fef2f2;
+    padding: 0.75rem;
+    font-size: 0.875rem;
+    color: #dc2626;
+  }
+
+  .form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .field-label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #3f3f46;
+  }
+
+  .text-field {
+    width: 100%;
+    border: 1px solid #d4d4d8;
+    border-radius: 0.25rem;
+    background: #fff;
+    padding: 0.5rem;
+    color: #18181b;
+  }
+
+  .primary-button {
+    width: fit-content;
+    border-radius: 0.25rem;
+    background: #059669;
+    padding: 0.5rem 1rem;
+    color: #fff;
+    font-weight: 500;
+    transition: background-color 150ms;
+  }
+
+  .primary-button:hover {
+    background: #047857;
+  }
+
+  .back-link-container {
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 0.875rem;
+    color: #71717a;
+  }
+
+  .back-link {
+    color: #059669;
+  }
+
+  .back-link:hover {
+    text-decoration: underline;
+  }
+
+  :global(.dark) .error-message {
+    border-color: #7f1d1d;
+    background: rgb(127 29 29 / 0.2);
+    color: #f87171;
+  }
+
+  :global(.dark) .field-label {
+    color: #d4d4d8;
+  }
+
+  :global(.dark) .text-field {
+    border-color: #3f3f46;
+    background: #27272a;
+    color: #f4f4f5;
+  }
+
+  :global(.dark) .back-link-container {
+    color: #a1a1aa;
+  }
+
+  :global(.dark) .back-link {
+    color: #34d399;
+  }
+</style>

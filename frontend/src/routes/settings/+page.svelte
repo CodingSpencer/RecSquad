@@ -21,14 +21,58 @@
   }
 </script>
 
-<main class="flex min-h-screen flex-col items-center justify-center gap-6 p-8">
-  <h1 class="text-2xl font-bold">Settings</h1>
-  <div class="flex flex-col gap-2 w-full max-w-sm">
-    <label class="text-sm font-medium">Theme</label>
-    <select bind:value={theme} onchange={(e) => applyTheme(e.target.value)} class="border rounded px-3 py-2">
+<main class="settings-page">
+  <h1 class="page-title">Settings</h1>
+  <div class="theme-setting">
+    <label for="theme-select" class="field-label">Theme</label>
+    <select id="theme-select" bind:value={theme} onchange={(e) => applyTheme(e.target.value)} class="theme-select">
       <option value="system">System</option>
       <option value="light">Light</option>
       <option value="dark">Dark</option>
     </select>
   </div>
 </main>
+
+<style>
+  .settings-page {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 2rem;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .theme-setting {
+    display: flex;
+    width: 100%;
+    max-width: 24rem;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .field-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .theme-select {
+    border: 1px solid #d4d4d8;
+    border-radius: 0.25rem;
+    background: #fff;
+    padding: 0.5rem 0.75rem;
+    color: #18181b;
+  }
+
+  :global(.dark) .theme-select {
+    border-color: #3f3f46;
+    background: #27272a;
+    color: #f4f4f5;
+  }
+</style>

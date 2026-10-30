@@ -6,18 +6,49 @@
   export let data: PageData
 </script>
 
-<nav class="sticky top-0 z-40 border-b">
+<nav class="site-nav">
   <Navbar session={data.session} />
 </nav>
 
-<div class="flex min-h-screen flex-col">
-  <main class="flex-1 w-full max-w-4xl mx-auto p-4 sm:p-6">
+<div class="site-shell">
+  <main class="site-content">
     <slot />
   </main>
 </div>
 
 <style>
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    border-bottom: 1px solid #e4e4e7;
+  }
+
+  .site-shell {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
+  .site-content {
+    width: 100%;
+    max-width: 56rem;
+    flex: 1;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+
   :global(body) {
     margin: 0;
+  }
+
+  :global(.dark) .site-nav {
+    border-color: #27272a;
+  }
+
+  @media (min-width: 640px) {
+    .site-content {
+      padding: 1.5rem;
+    }
   }
 </style>

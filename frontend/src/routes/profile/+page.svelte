@@ -25,21 +25,74 @@
   const initial = (username || fullName || user?.email || '?').trim().charAt(0).toUpperCase()
 </script>
 
-<main class="max-w-md mx-auto p-6">
-  <h1 class="text-2xl font-bold mb-4">Profile</h1>
+<main class="profile-page">
+  <h1 class="page-title">Profile</h1>
   {#if user}
-    <div class="flex items-center gap-4 mb-6">
+    <div class="profile-summary">
       {#if avatarUrl}
-        <img src={avatarUrl} alt="Profile" class="h-16 w-16 rounded-full object-cover" />
+        <img src={avatarUrl} alt="Profile" class="profile-avatar" />
       {:else}
-        <div class="h-16 w-16 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xl font-medium">{initial}</div>
+        <div class="profile-avatar avatar-initial">{initial}</div>
       {/if}
-      <div>
-        <p class="font-semibold">{username || user.email}</p>
-        <p class="text-sm text-zinc-500 dark:text-zinc-400">{fullName}</p>
+      <div class="profile-details">
+        <p class="profile-name">{username || user.email}</p>
+        <p class="profile-full-name">{fullName}</p>
       </div>
     </div>
   {:else}
-    <p class="text-zinc-500">Not signed in.</p>
+    <p class="signed-out-message">Not signed in.</p>
   {/if}
 </main>
+
+<style>
+  .profile-page {
+    max-width: 28rem;
+    margin: 0 auto;
+    padding: 1.5rem;
+  }
+
+  .page-title {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .profile-summary {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .profile-avatar {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 9999px;
+    object-fit: cover;
+  }
+
+  .avatar-initial {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #059669;
+    color: #fff;
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
+
+  .profile-name {
+    font-weight: 600;
+  }
+
+  .profile-full-name,
+  .signed-out-message {
+    font-size: 0.875rem;
+    color: #71717a;
+  }
+
+  :global(.dark) .profile-full-name,
+  :global(.dark) .signed-out-message {
+    color: #a1a1aa;
+  }
+</style>

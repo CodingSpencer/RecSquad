@@ -2,22 +2,117 @@
   import { page } from '$app/stores'
 </script>
 
-<div class="flex flex-col flex-1 items-center justify-center bg-zinc-50 dark:bg-black min-h-[calc(100vh-4rem)]">
-  <main class="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-6 bg-white dark:bg-black sm:items-start sm:text-left">
-    <h1 class="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
+<div class="page-shell">
+  <main class="page-content">
+    <h1 class="page-title">
       About
     </h1>
-    <p class="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400 text-center">
+    <p class="page-description">
       RecSquad connects players with local sports groups and events. Built for
       Bakeoff_2 with SvelteKit and Supabase.
     </p>
-    <div class="mt-12 flex flex-col items-center gap-4 sm:flex-row">
+    <div class="page-actions">
       <a
         href="/"
-        class="px-4 py-2 rounded-md text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
+        class="back-link"
       >
         ← Back to Home
       </a>
     </div>
   </main>
 </div>
+
+<style>
+  .page-shell {
+    display: flex;
+    min-height: calc(100vh - 4rem);
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #fafafa;
+  }
+
+  .page-content {
+    display: flex;
+    width: 100%;
+    max-width: 48rem;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    padding: 8rem 1.5rem;
+    text-align: center;
+  }
+
+  .page-title {
+    max-width: 20rem;
+    font-size: 1.875rem;
+    font-weight: 600;
+    line-height: 2.5rem;
+    letter-spacing: -0.025em;
+    color: #000;
+    text-align: left;
+  }
+
+  .page-description {
+    max-width: 28rem;
+    font-size: 1.125rem;
+    line-height: 2rem;
+    color: #52525b;
+    text-align: center;
+  }
+
+  .page-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 3rem;
+  }
+
+  .back-link {
+    border-radius: 0.375rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #52525b;
+  }
+
+  .back-link:hover {
+    color: #18181b;
+  }
+
+  :global(.dark) .page-shell,
+  :global(.dark) .page-content {
+    background: #000;
+  }
+
+  :global(.dark) .page-title {
+    color: #fafafa;
+  }
+
+  :global(.dark) .page-description {
+    color: #a1a1aa;
+  }
+
+  :global(.dark) .back-link {
+    color: #a1a1aa;
+  }
+
+  :global(.dark) .back-link:hover {
+    color: #fafafa;
+  }
+
+  @media (min-width: 640px) {
+    .page-content {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .page-actions {
+      flex-direction: row;
+    }
+  }
+</style>
