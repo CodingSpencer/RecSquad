@@ -1,5 +1,8 @@
 <script lang="ts">
   import SignInButton from '$lib/components/SignInButton.svelte'
+  import type { PageData } from './$types'
+
+  export let data: PageData
 </script>
 
 <div class="home-shell">
@@ -20,7 +23,7 @@
       >
         Browse Events
       </a>
-      <SignInButton />
+      <SignInButton user={data.user} />
     </div>
 
     <section class="features">

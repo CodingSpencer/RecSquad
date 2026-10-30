@@ -1,10 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
-  import { createClient } from '$lib/supabase/client'
-  import { goto } from '$app/navigation'
-
-  type Session = NonNullable<App.PageData['session']>
-  type User = Session['user']
+  type User = NonNullable<App.PageData['user']>
 
   type Profile = {
     username: string | null
@@ -12,92 +7,17 @@
     avatar_url: string | null
   }
 
-  export let session: Session | null = null
+  export let user: User | null = null
+  export let profile: Profile | null = null
 
-  let supabase: ReturnType<typeof createClient>
-  let user: User | null = session?.user ?? null
-  let lastSessionUserId = session?.user?.id
-  let profile: Profile | null = null
-  let loggedIn = Boolean(user)
+  let loggedIn = false
   let showDropdown = false
-  let authError: string | null = null
   let initial = 'P'
 
-  $: if (session?.user?.id !== lastSessionUserId) {
-    lastSessionUserId = session?.user?.id
-    user = session?.user ?? null
-    loggedIn = Boolean(user)
-    profile = null
-
-    if (user && supabase) {
-      const userId = user.id
-      queueMicrotask(() => {
-        if (user?.id === userId) void loadProfile(userId)
-      })
-    }
-  }
-
+  $: loggedIn = Boolean(user)
   $: name = profile?.username || profile?.full_name || user?.email || 'Profile'
   $: avatarUrl = profile?.avatar_url ?? null
   $: initial = name.trim().charAt(0).toUpperCase() || '?'
-
-  async function loadProfile(userId: string) {
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('username, full_name, avatar_url')
-      .eq('id', userId)
-      .single()
-
-    if (user?.id !== userId) return
-
-    if (error) {
-      console.error('Unable to load the navbar profile:', error)
-      profile = null
-      return
-    }
-
-    profile = data
-  }
-
-  onMount(() => {
-    supabase = createClient()
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, nextSession) => {
-      const nextUser = nextSession?.user ?? null
-      const userChanged = nextUser?.id !== user?.id
-      user = nextUser
-      loggedIn = Boolean(user)
-
-      if (userChanged) {
-        profile = null
-        authError = null
-        showDropdown = false
-      }
-
-      if (user && userChanged) {
-        const userId = user.id
-        queueMicrotask(() => {
-          if (user?.id === userId) void loadProfile(userId)
-        })
-      }
-    })
-
-    return () => subscription.unsubscribe()
-  })
-
-  async function handleLogout() {
-    const { error } = await supabase.auth.signOut({ scope: 'global' })
-    if (error) {
-      console.error('Unable to sign out:', error)
-      authError = 'Unable to sign out. Please try again.'
-      return
-    }
-
-    user = null
-    profile = null
-    loggedIn = false
-    showDropdown = false
-    await goto('/')
-  }
 </script>
 
 <nav class="w-full flex items-center justify-between px-4 py-4 border-b bg-white dark:bg-black">
@@ -128,12 +48,11 @@
         </button>
         {#if showDropdown}
           <div class="absolute right-0 mt-2 w-48 bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded shadow-lg z-10">
-            {#if authError}
-              <p role="alert" class="px-4 py-2 text-sm text-red-600 dark:text-red-400">{authError}</p>
-            {/if}
             <a href="/profile" class="block px-4 py-2 text-sm text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800">Profile</a>
             <a href="/settings" class="block px-4 py-2 text-sm text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800">Settings</a>
-            <button type="button" onclick={handleLogout} class="w-full text-left px-4 py-2 text-sm text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800">Log Out</button>
+            <form method="POST" action="/?/logout">
+              <button type="submit" class="w-full text-left px-4 py-2 text-sm text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800">Log Out</button>
+            </form>
           </div>
         {/if}
       </div>

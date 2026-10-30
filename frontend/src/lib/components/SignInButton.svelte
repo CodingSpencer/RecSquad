@@ -1,17 +1,10 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
-  import { createClient } from '$lib/supabase/client'
+  type User = NonNullable<App.PageData['user']>
 
-  const supabase = createClient()
-  let loggedIn = false
-
-  onMount(async () => {
-    const { data } = await supabase.auth.getUser()
-    loggedIn = !!data.user
-  })
+  export let user: User | null = null
 </script>
 
-{#if loggedIn}
+{#if user}
   <span class="hidden"></span>
 {:else}
   <a

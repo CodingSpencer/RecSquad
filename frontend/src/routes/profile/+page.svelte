@@ -1,42 +1,23 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
-  import { createClient } from '$lib/supabase/client'
+  import type { PageData } from './$types'
 
-  const supabase = createClient()
-  let user: any = null
-  let username = ''
-  let fullName = ''
-  let avatarUrl: string | null = null
-
-  onMount(async () => {
-    const { data } = await supabase.auth.getUser()
-    user = data.user
-    if (!user) return
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('username, full_name, avatar_url')
-      .eq('id', user.id)
-      .single()
-    username = profile?.username ?? ''
-    fullName = profile?.full_name ?? ''
-    avatarUrl = profile?.avatar_url ?? null
-  })
-
-  const initial = (username || fullName || user?.email || '?').trim().charAt(0).toUpperCase()
+  export let data: PageData
+  $: name = data.profile?.username || data.profile?.full_name || data.user?.email || '?'
+  $: initial = name.trim().charAt(0).toUpperCase()
 </script>
 
 <main class="profile-page">
   <h1 class="page-title">Profile</h1>
-  {#if user}
+  {#if data.user}
     <div class="profile-summary">
-      {#if avatarUrl}
-        <img src={avatarUrl} alt="Profile" class="profile-avatar" />
+      {#if data.profile?.avatar_url}
+        <img src={data.profile.avatar_url} alt="Profile" class="profile-avatar" />
       {:else}
         <div class="profile-avatar avatar-initial">{initial}</div>
       {/if}
       <div class="profile-details">
-        <p class="profile-name">{username || user.email}</p>
-        <p class="profile-full-name">{fullName}</p>
+        <p class="profile-name">{name}</p>
+        <p class="profile-full-name">{data.profile?.full_name}</p>
       </div>
     </div>
   {:else}

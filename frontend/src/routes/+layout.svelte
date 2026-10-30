@@ -7,7 +7,7 @@
 </script>
 
 <nav class="site-nav">
-  <Navbar session={data.session} />
+  <Navbar user={data.user} profile={data.profile} />
 </nav>
 
 <div class="site-shell">
