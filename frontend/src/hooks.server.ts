@@ -7,7 +7,7 @@ import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/publi
 // server-side Supabase client can be created in this environment.
 import { WebSocket as WebSocketImpl } from 'ws'
 if (!globalThis.WebSocket) {
-  globalThis.WebSocket = WebSocketImpl as typeof WebSocket
+  globalThis.WebSocket = WebSocketImpl as unknown as typeof WebSocket
 }
 
 export const handle: Handle = async ({ event, resolve }) => {
@@ -26,11 +26,24 @@ export const handle: Handle = async ({ event, resolve }) => {
     }
   )
 
-  event.locals.session = await event.locals.supabase.auth.getSession()
+  event.locals.safeGetSession = async () => {
+    const { data: { session } } = await event.locals.supabase.auth.getSession()
+    if (!session) return { session: null, user: null }
+
+    const { data: { user }, error } = await event.locals.supabase.auth.getUser()
+    if (error) {
+      // JWT validation failed or expired
+      return { session: null, user: null }
+    }
+
+    return { session, user }
+  }
+
+  // event.locals.session = await event.locals.supabase.auth.getSession()
 
   const response = await resolve(event, {
     filterSerializedResponseHeaders(name) {
-      return name === 'content-range' || name === 'x-supabase-auth'
+      return name === 'content-range' || name === 'x-supabase-api-version'
     },
   })
 
