@@ -99,7 +99,7 @@
 
   .login-title {
     margin-bottom: 1.5rem;
-    text-align: center;
+    text-align: left;
     font-size: 1.5rem;
     font-weight: 700;
   }

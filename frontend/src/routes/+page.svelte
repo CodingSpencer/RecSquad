@@ -17,27 +17,29 @@
       </p>
     </div>
     <div class="home-actions">
-      <a
-        href="/events"
-        class="events-link"
-      >
-        Browse Events
-      </a>
       <SignInButton user={data.user} />
     </div>
 
     <section class="features">
       <div class="feature">
-        <h2 class="feature-title">Browse Events</h2>
+        <h2 class="feature-title">Feed</h2>
+        <p class="feature-description">Discover local, sport, and popular event posts.</p>
+        <a href="/feed" class="browse-link">Browse Feed</a>
+      </div>
+      <div class="feature">
+        <h2 class="feature-title">Events</h2>
         <p class="feature-description">See upcoming games and RSVP with one click.</p>
+        <a href="/events" class="browse-link">Browse Events</a>
       </div>
       <div class="feature">
-        <h2 class="feature-title">Player Profile</h2>
-        <p class="feature-description">Track your sports and skill level.</p>
-      </div>
-      <div class="feature">
-        <h2 class="feature-title">Group Discovery</h2>
+        <h2 class="feature-title">Groups</h2>
         <p class="feature-description">Find local groups for your favorite sports.</p>
+        <a href="/groups" class="browse-link">Browse Groups</a>
+      </div>
+      <div class="feature">
+        <h2 class="feature-title">Profile</h2>
+        <p class="feature-description">Manage your profile and account location.</p>
+        <a href="/profile" class="browse-link">Browse Profile</a>
       </div>
     </section>
   </main>
@@ -99,21 +101,20 @@
     font-weight: 500;
   }
 
-  .events-link {
-    display: flex;
-    width: 100%;
-    height: 3rem;
+  .browse-link {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    border-radius: 9999px;
+    border-radius: 0.375rem;
     background: #059669;
-    padding: 0 1.25rem;
+    padding: 0.5rem 0.875rem;
     color: #fff;
+    font-size: 0.875rem;
+    font-weight: 500;
     transition: background-color 150ms;
   }
 
-  .events-link:hover {
+  .browse-link:hover {
     background: #047857;
   }
 
@@ -123,7 +124,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    gap: 3rem;
+    gap: 2rem;
     margin-top: 5rem;
     border-top: 1px solid #e4e4e7;
     padding: 4rem 1.5rem;
@@ -133,7 +134,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    gap: 0.75rem;
     text-align: center;
   }
 
@@ -190,8 +191,8 @@
   }
 
   @media (min-width: 768px) {
-    .events-link {
-      width: 9.875rem;
+    .feature {
+      flex: 1;
     }
   }
 </style>

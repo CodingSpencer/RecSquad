@@ -1,14 +1,14 @@
 <script lang="ts">
   import { enhance } from '$app/forms'
-  import type { PageData } from './$types'
+  import type { ActionData } from './$types'
 
-  export let data: PageData
+  export let form: ActionData
 </script>
 
 <main class="form-page">
   <h1 class="page-title">Create Group</h1>
-  {#if data.error}
-    <p class="error-message">{data.error}</p>
+  {#if form?.error}
+    <p class="error-message">{form.error}</p>
   {/if}
   <form method="POST" use:enhance class="form-fields">
     <div>
@@ -16,8 +16,26 @@
       <input id="group-name" name="name" placeholder="Name" required class="text-field" />
     </div>
     <div>
+      <label for="group-city" class="field-label">City</label>
+      <input id="group-city" name="city" placeholder="City" required class="text-field" />
+    </div>
+    <div>
+      <label for="group-state" class="field-label">State</label>
+      <input id="group-state" name="state" placeholder="State" required class="text-field" />
+    </div>
+    <div>
       <label for="group-sport" class="field-label">Sport</label>
       <input id="group-sport" name="sport" placeholder="Sport" class="text-field" />
+    </div>
+    <div>
+      <label for="group-image-url" class="field-label">Group profile image URL (optional)</label>
+      <input
+        id="group-image-url"
+        name="image_url"
+        type="url"
+        placeholder="https://example.com/group-image.jpg"
+        class="text-field"
+      />
     </div>
     <div>
       <label for="group-description" class="field-label">Description</label>

@@ -1,6 +1,5 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-
   let theme = 'system'
 
   onMount(() => {
@@ -36,12 +35,14 @@
 <style>
   .settings-page {
     display: flex;
-    min-height: 100vh;
+    width: 100%;
+    max-width: 56rem;
+    min-height: calc(100vh - 8rem);
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
     gap: 1.5rem;
-    padding: 2rem;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
   }
 
   .page-title {
@@ -70,9 +71,18 @@
     color: #18181b;
   }
 
+  .theme-select {
+    border: 1px solid #d4d4d8;
+    border-radius: 0.25rem;
+    background: #fff;
+    padding: 0.5rem 0.75rem;
+    color: #18181b;
+  }
+
   :global(.dark) .theme-select {
     border-color: #3f3f46;
     background: #27272a;
     color: #f4f4f5;
   }
+
 </style>

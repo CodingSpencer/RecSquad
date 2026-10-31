@@ -25,6 +25,7 @@
 
   <div class="flex items-center gap-4">
     <a href="/" class="text-sm font-medium text-zinc-600 hover:text-emerald-600 dark:text-zinc-400 dark:hover:text-emerald-400">Home</a>
+    <a href="/feed" class="text-sm font-medium text-zinc-600 hover:text-emerald-600 dark:text-zinc-400 dark:hover:text-emerald-400">Feed</a>
     <a href="/events" class="text-sm font-medium text-zinc-600 hover:text-emerald-600 dark:text-zinc-400 dark:hover:text-emerald-400">Events</a>
     <a href="/groups" class="text-sm font-medium text-zinc-600 hover:text-emerald-600 dark:text-zinc-400 dark:hover:text-emerald-400">Groups</a>
   </div>

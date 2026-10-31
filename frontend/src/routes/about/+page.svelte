@@ -28,22 +28,22 @@
     min-height: calc(100vh - 4rem);
     flex: 1;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
     background: #fafafa;
   }
 
   .page-content {
     display: flex;
     width: 100%;
-    max-width: 48rem;
+    max-width: 56rem;
     flex: 1;
     flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
+    align-items: flex-start;
+    justify-content: flex-start;
     background: #fff;
-    padding: 8rem 1.5rem;
-    text-align: center;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    text-align: left;
   }
 
   .page-title {
@@ -58,16 +58,17 @@
 
   .page-description {
     max-width: 28rem;
+    margin-top: 1rem;
     font-size: 1.125rem;
     line-height: 2rem;
     color: #52525b;
-    text-align: center;
+    text-align: left;
   }
 
   .page-actions {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     gap: 1rem;
     margin-top: 3rem;
   }

@@ -1,24 +1,104 @@
 <script lang="ts">
   import { enhance } from '$app/forms'
-  import type { PageData } from './$types'
+  import type { ActionData } from './$types'
 
-  export let data: PageData
+  export let form: ActionData
+  let recurring = false
+  let noEndDate = true
+
+  function setTimezoneOffset(event: SubmitEvent) {
+    const formElement = event.currentTarget
+    if (!(formElement instanceof HTMLFormElement)) return
+
+    const startTimeInput = formElement.elements.namedItem('start_time')
+    const timezoneOffsetInput = formElement.elements.namedItem('timezone_offset')
+    if (
+      !(startTimeInput instanceof HTMLInputElement) ||
+      !(timezoneOffsetInput instanceof HTMLInputElement) ||
+      !startTimeInput.value
+    ) {
+      return
+    }
+
+    timezoneOffsetInput.value = String(new Date(startTimeInput.value).getTimezoneOffset())
+  }
 </script>
 
 <main class="form-page">
   <h1 class="page-title">Create Event</h1>
-  {#if data.error}
-    <p class="error-message">{data.error}</p>
+  {#if form?.error}
+    <p class="error-message" role="alert">{form.error}</p>
   {/if}
-  <form method="POST" use:enhance class="form-fields">
+  <form method="POST" use:enhance onsubmit={setTimezoneOffset} class="form-fields">
     <div>
       <label for="event-title" class="field-label">Title</label>
       <input id="event-title" name="title" placeholder="Title" required class="text-field" />
     </div>
     <div>
-      <label for="event-date" class="field-label">Date & time</label>
-      <input id="event-date" type="datetime-local" name="date" required class="text-field" />
+      <label for="event-skill-level" class="field-label">Skill level</label>
+      <select id="event-skill-level" name="skill_level" required class="text-field">
+        <option value="Beginner">Beginner</option>
+        <option value="Intermediate">Intermediate</option>
+        <option value="Experienced">Experienced</option>
+      </select>
     </div>
+    <div>
+      <label for="event-style" class="field-label">Event style</label>
+      <select id="event-style" name="event_style" required class="text-field">
+        <option value="Casual">Casual</option>
+        <option value="Competitive">Competitive</option>
+        <option value="Tournament">Tournament</option>
+      </select>
+    </div>
+    <div>
+      <label for="event-type" class="field-label">Event type</label>
+      <select id="event-type" name="event_type" required class="text-field">
+        <option value="Pick Up">Pick Up</option>
+        <option value="Practice">Practice</option>
+        <option value="Game">Game</option>
+        <option value="Info">Info</option>
+      </select>
+    </div>
+    <div>
+      <label for="event-date" class="field-label">Date & time</label>
+      <input id="event-date" type="datetime-local" name="start_time" required class="text-field" />
+    </div>
+    <div>
+      <label for="event-city" class="field-label">City</label>
+      <input id="event-city" name="city" placeholder="City" required class="text-field" />
+    </div>
+    <div>
+      <label for="event-state" class="field-label">State</label>
+      <input id="event-state" name="state" placeholder="State" required class="text-field" />
+    </div>
+    <label class="checkbox-label">
+      <input type="checkbox" name="is_recurring" value="true" bind:checked={recurring} />
+      Repeat this event weekly
+    </label>
+    {#if recurring}
+      <fieldset class="recurrence-fields">
+        <legend class="field-label">Day(s) of the week</legend>
+        <div class="weekday-list">
+          {#each ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] as day}
+            <label class="checkbox-label">
+              <input type="checkbox" name="recurrence_days" value={day} />
+              {day}
+            </label>
+          {/each}
+        </div>
+        <label class="checkbox-label">
+          <input type="checkbox" name="no_end_date" value="true" bind:checked={noEndDate} />
+          No end date
+        </label>
+        {#if !noEndDate}
+          <div>
+            <label for="recurrence-end-date" class="field-label">Repeat until</label>
+            <input id="recurrence-end-date" type="date" name="recurrence_end_date" required class="text-field" />
+          </div>
+        {/if}
+      </fieldset>
+    {/if}
+    <input type="hidden" name="timezone_offset" value="0" />
     <button class="primary-button">Create</button>
   </form>
   <p class="back-link-container">
@@ -60,6 +140,29 @@
     margin-bottom: 0.25rem;
     font-size: 0.875rem;
     font-weight: 500;
+    color: #3f3f46;
+  }
+
+  .recurrence-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    border: 1px solid #e4e4e7;
+    border-radius: 0.375rem;
+    padding: 0.75rem;
+  }
+
+  .weekday-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
     color: #3f3f46;
   }
 
@@ -108,6 +211,14 @@
   }
 
   :global(.dark) .field-label {
+    color: #d4d4d8;
+  }
+
+  :global(.dark) .recurrence-fields {
+    border-color: #3f3f46;
+  }
+
+  :global(.dark) .checkbox-label {
     color: #d4d4d8;
   }
 

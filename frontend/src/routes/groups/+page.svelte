@@ -20,8 +20,24 @@
     <ul class="group-list">
       {#each data.groups as g (g.id)}
         <li class="group-item">
-          <a href={`/groups/${g.id}`} class="group-name">{g.name}</a>
-          <p class="group-description">{g.sport} · {g.description}</p>
+          <a href={`/groups/${g.id}`} class="group-link">
+            {#if g.image_url}
+              <img src={g.image_url} alt="" class="group-avatar" />
+            {:else}
+              <span class="group-avatar group-initial" aria-hidden="true">
+                {g.name.trim().charAt(0).toUpperCase()}
+              </span>
+            {/if}
+            <span class="group-info">
+              <span class="group-name">
+                {g.name}
+                {#if g.city && g.state}
+                  <span class="group-location">· {g.city}, {g.state}</span>
+                {/if}
+              </span>
+              <span class="group-description">{[g.sport, g.description].filter(Boolean).join(' · ')}</span>
+            </span>
+          </a>
         </li>
       {/each}
     </ul>
@@ -71,14 +87,47 @@
   }
 
   .group-item {
-    border: 1px solid #e4e4e7;
-    border-radius: 0.25rem;
-    padding: 1rem;
+    border-bottom: 1px solid #e4e4e7;
+    padding: 0.875rem 0;
+  }
+
+  .group-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .group-avatar {
+    width: 2.75rem;
+    height: 2.75rem;
+    flex-shrink: 0;
+    border-radius: 9999px;
+    background: #d1fae5;
+    object-fit: cover;
+  }
+
+  .group-initial {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #047857;
+    font-weight: 700;
+  }
+
+  .group-info {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
   }
 
   .group-name {
     font-weight: 600;
     color: #059669;
+  }
+
+  .group-location {
+    font-weight: 400;
+    color: #71717a;
   }
 
   .group-description {
@@ -87,14 +136,23 @@
   }
 
   :global(.dark) .group-item {
-    border-color: #3f3f46;
+    border-color: #27272a;
   }
 
   :global(.dark) .group-name {
     color: #34d399;
   }
 
+  :global(.dark) .group-location {
+    color: #a1a1aa;
+  }
+
   :global(.dark) .group-description {
     color: #a1a1aa;
+  }
+
+  :global(.dark) .group-initial {
+    background: #064e3b;
+    color: #a7f3d0;
   }
 </style>
