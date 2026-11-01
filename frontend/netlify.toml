@@ -1,0 +1,7 @@
+[build]
+  command = "npm run build"
+  publish = "build"
+
+[build.environment]
+  # This SvelteKit site must skip the Next.js runtime installed in site settings.
+  NETLIFY_NEXT_PLUGIN_SKIP = "true"
