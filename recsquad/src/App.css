@@ -480,8 +480,17 @@
 }
 
 .feed-location {
+  margin: 0;
   color: var(--green-700);
   font-weight: 700;
+}
+
+.feed-location-slot {
+  min-height: 1.5em;
+}
+
+.feed-results {
+  min-height: clamp(280px, 48vh, 480px);
 }
 
 .empty-state {

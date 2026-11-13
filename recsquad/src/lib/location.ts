@@ -67,5 +67,5 @@ export function canonicalizeState(state: string | null | undefined): string {
   const value = state?.trim().replace(/\s+/g, ' ')
   const normalized = value?.toLowerCase().replace(/\./g, '')
   if (!normalized) return ''
-  return stateAbbreviations.get(normalized) ?? value
+  return stateAbbreviations.get(normalized) ?? value ?? ''
 }
