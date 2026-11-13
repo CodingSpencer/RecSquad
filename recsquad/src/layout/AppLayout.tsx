@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, Outlet } from 'react-router-dom'
 import { prefetchPageData, loadFeedData, loadGroups, loadUpcomingEvents } from '../lib/pageData'
 import { supabase } from '../lib/supabase'
@@ -14,7 +14,29 @@ export function AppLayout({
   onUserChange: (user: User | null) => void
 }) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const accountMenuRef = useRef<HTMLDivElement>(null)
   const name = user?.email ?? 'Profile'
+
+  useEffect(() => {
+    if (!menuOpen) return
+
+    function closeOnOutsideClick(event: PointerEvent) {
+      if (event.target instanceof Node && !accountMenuRef.current?.contains(event.target)) {
+        setMenuOpen(false)
+      }
+    }
+
+    function closeOnEscape(event: KeyboardEvent) {
+      if (event.key === 'Escape') setMenuOpen(false)
+    }
+
+    document.addEventListener('pointerdown', closeOnOutsideClick)
+    document.addEventListener('keydown', closeOnEscape)
+    return () => {
+      document.removeEventListener('pointerdown', closeOnOutsideClick)
+      document.removeEventListener('keydown', closeOnEscape)
+    }
+  }, [menuOpen])
 
   async function signOut() {
     if (!supabase) return
@@ -40,7 +62,7 @@ export function AppLayout({
           </div>
           <div className="nav-account">
             {authLoading ? <span className="muted small">Loading...</span> : user ? (
-              <div className="account-menu">
+              <div className="account-menu" ref={accountMenuRef}>
                 <button className="account-button" type="button" onClick={() => setMenuOpen(!menuOpen)} aria-expanded={menuOpen}>
                   <span className="avatar avatar-small">{name.trim().charAt(0).toUpperCase()}</span>
                   <span className="account-name">{name}</span>
